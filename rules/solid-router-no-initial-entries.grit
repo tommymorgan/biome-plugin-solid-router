@@ -1,0 +1,34 @@
+engine biome(1.0)
+language js(typescript, jsx)
+
+// @solidjs/router: `<MemoryRouter>` does not have an `initialEntries` prop.
+// Use `createMemoryHistory()` and `history.set({ value: path })` to set the
+// initial location, then pass the history object to the router.
+
+or {
+	// <MemoryRouter initialEntries={...} ...>...</MemoryRouter>
+	`<MemoryRouter $props>$body</MemoryRouter>` as $elem where {
+		$elem <: contains JsxAttribute() as $attr where {
+			$attr <: contains JsxName() as $name where {
+				$name <: `initialEntries`
+			}
+		},
+		register_diagnostic(
+			span = $attr,
+			message = "@solidjs/router: `<MemoryRouter>` does not support `initialEntries`. Use `createMemoryHistory()` and `history.set({ value: path })` instead."
+		)
+	},
+
+	// <MemoryRouter initialEntries={...} ... />
+	`<MemoryRouter $props />` as $elem where {
+		$elem <: contains JsxAttribute() as $attr where {
+			$attr <: contains JsxName() as $name where {
+				$name <: `initialEntries`
+			}
+		},
+		register_diagnostic(
+			span = $attr,
+			message = "@solidjs/router: `<MemoryRouter>` does not support `initialEntries`. Use `createMemoryHistory()` and `history.set({ value: path })` instead."
+		)
+	}
+}

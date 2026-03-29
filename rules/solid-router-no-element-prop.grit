@@ -1,0 +1,34 @@
+engine biome(1.0)
+language js(typescript, jsx)
+
+// @solidjs/router: `<Route>` uses `component`, not `element`.
+// React Router uses `element={<Component />}` but @solidjs/router expects
+// `component={Component}` — a reference to the component, not a JSX element.
+
+or {
+	// <Route element={...} ...>...</Route>
+	`<Route $props>$body</Route>` as $elem where {
+		$elem <: contains JsxAttribute() as $attr where {
+			$attr <: contains JsxName() as $name where {
+				$name <: `element`
+			}
+		},
+		register_diagnostic(
+			span = $attr,
+			message = "@solidjs/router: `<Route>` uses `component`, not `element`. Change `element=` to `component=` and pass a component reference, not JSX."
+		)
+	},
+
+	// <Route element={...} ... />
+	`<Route $props />` as $elem where {
+		$elem <: contains JsxAttribute() as $attr where {
+			$attr <: contains JsxName() as $name where {
+				$name <: `element`
+			}
+		},
+		register_diagnostic(
+			span = $attr,
+			message = "@solidjs/router: `<Route>` uses `component`, not `element`. Change `element=` to `component=` and pass a component reference, not JSX."
+		)
+	}
+}

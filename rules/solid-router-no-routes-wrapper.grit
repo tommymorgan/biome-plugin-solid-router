@@ -1,0 +1,61 @@
+engine biome(1.0)
+language js(typescript, jsx)
+
+// @solidjs/router: There is no `Routes` wrapper component.
+// In SolidJS router, `<Route>` components go directly inside `<Router>`.
+// Developers coming from React Router expect to wrap routes in `<Routes>`,
+// but this component doesn't exist in @solidjs/router.
+
+or {
+	// import { Routes } from "@solidjs/router" (sole specifier)
+	`import { Routes } from "@solidjs/router"` as $decl where {
+		$decl <: contains `Routes` as $name,
+		register_diagnostic(
+			span = $name,
+			message = "@solidjs/router: `Routes` does not exist. Place `<Route>` components directly inside `<Router>`."
+		)
+	},
+
+	// import { ..., Routes, ... } from "@solidjs/router" (among other specifiers)
+	`import { $_, Routes, $_ } from "@solidjs/router"` as $decl where {
+		$decl <: contains `Routes` as $name,
+		register_diagnostic(
+			span = $name,
+			message = "@solidjs/router: `Routes` does not exist. Place `<Route>` components directly inside `<Router>`."
+		)
+	},
+
+	// import { Routes, ... } from "@solidjs/router" (first specifier)
+	`import { Routes, $_ } from "@solidjs/router"` as $decl where {
+		$decl <: contains `Routes` as $name,
+		register_diagnostic(
+			span = $name,
+			message = "@solidjs/router: `Routes` does not exist. Place `<Route>` components directly inside `<Router>`."
+		)
+	},
+
+	// import { ..., Routes } from "@solidjs/router" (last specifier)
+	`import { $_, Routes } from "@solidjs/router"` as $decl where {
+		$decl <: contains `Routes` as $name,
+		register_diagnostic(
+			span = $name,
+			message = "@solidjs/router: `Routes` does not exist. Place `<Route>` components directly inside `<Router>`."
+		)
+	},
+
+	// <Routes ...>...</Routes> in JSX
+	`<Routes $props>$body</Routes>` as $elem where {
+		register_diagnostic(
+			span = $elem,
+			message = "@solidjs/router: `<Routes>` does not exist. Place `<Route>` components directly inside `<Router>`."
+		)
+	},
+
+	// <Routes ... /> self-closing in JSX
+	`<Routes $props />` as $elem where {
+		register_diagnostic(
+			span = $elem,
+			message = "@solidjs/router: `<Routes>` does not exist. Place `<Route>` components directly inside `<Router>`."
+		)
+	}
+}

@@ -1,0 +1,61 @@
+engine biome(1.0)
+language js(typescript, jsx)
+
+// @solidjs/router: There is no `Link` component.
+// SolidJS router uses `<A>` for navigation links, not `<Link>`.
+// Developers coming from React Router habitually type `<Link to="...">` which
+// doesn't exist in @solidjs/router and will fail at runtime.
+
+or {
+	// import { Link } from "@solidjs/router" (sole specifier)
+	`import { Link } from "@solidjs/router"` as $decl where {
+		$decl <: contains `Link` as $name,
+		register_diagnostic(
+			span = $name,
+			message = "@solidjs/router: `Link` does not exist. Use `A` instead — import { A } from \"@solidjs/router\"."
+		)
+	},
+
+	// import { ..., Link, ... } from "@solidjs/router" (among other specifiers)
+	`import { $_, Link, $_ } from "@solidjs/router"` as $decl where {
+		$decl <: contains `Link` as $name,
+		register_diagnostic(
+			span = $name,
+			message = "@solidjs/router: `Link` does not exist. Use `A` instead — import { A } from \"@solidjs/router\"."
+		)
+	},
+
+	// import { Link, ... } from "@solidjs/router" (first specifier)
+	`import { Link, $_ } from "@solidjs/router"` as $decl where {
+		$decl <: contains `Link` as $name,
+		register_diagnostic(
+			span = $name,
+			message = "@solidjs/router: `Link` does not exist. Use `A` instead — import { A } from \"@solidjs/router\"."
+		)
+	},
+
+	// import { ..., Link } from "@solidjs/router" (last specifier)
+	`import { $_, Link } from "@solidjs/router"` as $decl where {
+		$decl <: contains `Link` as $name,
+		register_diagnostic(
+			span = $name,
+			message = "@solidjs/router: `Link` does not exist. Use `A` instead — import { A } from \"@solidjs/router\"."
+		)
+	},
+
+	// <Link ...>...</Link> in JSX
+	`<Link $props>$body</Link>` as $elem where {
+		register_diagnostic(
+			span = $elem,
+			message = "@solidjs/router: `<Link>` does not exist. Use `<A>` instead."
+		)
+	},
+
+	// <Link ... /> self-closing in JSX
+	`<Link $props />` as $elem where {
+		register_diagnostic(
+			span = $elem,
+			message = "@solidjs/router: `<Link>` does not exist. Use `<A>` instead."
+		)
+	}
+}

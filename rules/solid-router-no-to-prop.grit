@@ -1,0 +1,34 @@
+engine biome(1.0)
+language js(typescript, jsx)
+
+// @solidjs/router: The `<A>` component uses `href`, not `to`.
+// Developers coming from React Router habitually write `<A to="/path">` but
+// @solidjs/router's `<A>` expects `href` for the destination URL.
+
+or {
+	// <A to="..." ...>...</A>
+	`<A $props>$body</A>` as $elem where {
+		$elem <: contains JsxAttribute() as $attr where {
+			$attr <: contains JsxName() as $name where {
+				$name <: `to`
+			}
+		},
+		register_diagnostic(
+			span = $attr,
+			message = "@solidjs/router: `<A>` uses `href`, not `to`. Change `to=` to `href=`."
+		)
+	},
+
+	// <A to="..." ... />
+	`<A $props />` as $elem where {
+		$elem <: contains JsxAttribute() as $attr where {
+			$attr <: contains JsxName() as $name where {
+				$name <: `to`
+			}
+		},
+		register_diagnostic(
+			span = $attr,
+			message = "@solidjs/router: `<A>` uses `href`, not `to`. Change `to=` to `href=`."
+		)
+	}
+}

@@ -1,0 +1,23 @@
+{
+	"$schema": "https://biomejs.dev/schemas/2.4.7/schema.json",
+	"files": {
+		"includes": ["fixtures/**"]
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"correctness": {
+				"noUnusedVariables": "off",
+				"noUnusedImports": "off",
+				"noUnusedFunctionParameters": "off"
+			}
+		}
+	},
+	"plugins": [
+		"./rules/solid-router-no-link-component.grit",
+		"./rules/solid-router-no-to-prop.grit",
+		"./rules/solid-router-no-initial-entries.grit",
+		"./rules/solid-router-no-routes-wrapper.grit",
+		"./rules/solid-router-no-element-prop.grit"
+	]
+}
