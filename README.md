@@ -6,7 +6,7 @@ Biome [GritQL](https://biomejs.dev/linter/plugins/) lint rules for [@solidjs/rou
 
 | Rule | Description |
 |------|-------------|
-| `solid-router-no-link-component` | Flags `Link` import or usage from `@solidjs/router`. Use `<A>` instead. |
+| `solid-router-no-link-component` | Flags `Link` import from `@solidjs/router` and `<Link>` usage with router props (`to`, `href`). Use `<A>` instead. |
 | `solid-router-no-to-prop` | Flags `to=` prop on `<A>` components. Use `href=` instead. |
 | `solid-router-no-initial-entries` | Flags `initialEntries` prop on `<MemoryRouter>`. Use `createMemoryHistory()` instead. |
 | `solid-router-no-routes-wrapper` | Flags `Routes` import or usage from `@solidjs/router`. Place `<Route>` directly inside `<Router>`. |
@@ -46,7 +46,7 @@ Each rule is a `.grit` file using Biome's GritQL engine (`engine biome(1.0)`) to
 
 - **Import detection**: Flags imports of non-existent components (`Link`, `Routes`) from `@solidjs/router`.
 - **Prop detection**: Flags wrong prop names (`to` instead of `href`, `element` instead of `component`, `initialEntries` which doesn't exist).
-- **Scoped matching**: Import rules only match `@solidjs/router` imports — `Link` from other packages is fine.
+- **Scoped matching**: Import rules only match `@solidjs/router` imports — `Link` from other packages is fine. JSX `<Link>` is only flagged when router-specific props (`to`, `href`) are present, avoiding false positives from icon libraries like `lucide-solid`.
 
 ## What these rules don't cover
 

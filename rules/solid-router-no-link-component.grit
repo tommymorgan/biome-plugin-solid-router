@@ -43,16 +43,26 @@ or {
 		)
 	},
 
-	// <Link ...>...</Link> in JSX
+	// <Link to="...">...</Link> in JSX (only when router-specific props are present)
 	`<Link $props>$body</Link>` as $elem where {
+		$elem <: contains JsxAttribute() as $attr where {
+			$attr <: contains JsxName() as $name where {
+				or { $name <: `to`, $name <: `href` }
+			}
+		},
 		register_diagnostic(
 			span = $elem,
 			message = "@solidjs/router: `<Link>` does not exist. Use `<A>` instead."
 		)
 	},
 
-	// <Link ... /> self-closing in JSX
+	// <Link to="..." /> self-closing in JSX (only when router-specific props are present)
 	`<Link $props />` as $elem where {
+		$elem <: contains JsxAttribute() as $attr where {
+			$attr <: contains JsxName() as $name where {
+				or { $name <: `to`, $name <: `href` }
+			}
+		},
 		register_diagnostic(
 			span = $elem,
 			message = "@solidjs/router: `<Link>` does not exist. Use `<A>` instead."

@@ -1,6 +1,6 @@
 {
 	"name": "biome-plugin-solid-router",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "Biome GritQL lint rules for @solidjs/router — catches common API mistakes at lint time",
 	"license": "MIT",
 	"author": "Tommy Morgan",
