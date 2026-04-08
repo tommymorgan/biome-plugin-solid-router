@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0
+
+### Added
+
+- `biome-manifest.jsonc` so the plugin can be referenced by package name in `biome.json`:
+  ```json
+  { "plugins": ["biome-plugin-solid-router"] }
+  ```
+
+### Changed
+
+- Switched to OIDC trusted publishing (no more npm tokens).
+
 ## 0.1.1 — 2026-03-29
 
 ### Fixed
