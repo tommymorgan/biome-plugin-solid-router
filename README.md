@@ -24,7 +24,7 @@ Add the plugin to your `biome.json` or `biome.jsonc`:
 
 ```jsonc
 {
-  "plugins": ["biome-plugin-solid-router"]
+  "plugins": ["./node_modules/biome-plugin-solid-router"]
 }
 ```
 
