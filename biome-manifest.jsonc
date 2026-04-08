@@ -1,0 +1,10 @@
+{
+	"version": 1,
+	"rules": [
+		"rules/solid-router-no-link-component.grit",
+		"rules/solid-router-no-to-prop.grit",
+		"rules/solid-router-no-initial-entries.grit",
+		"rules/solid-router-no-routes-wrapper.grit",
+		"rules/solid-router-no-element-prop.grit"
+	]
+}

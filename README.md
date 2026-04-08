@@ -20,7 +20,15 @@ npm install -D biome-plugin-solid-router
 
 ## Setup
 
-Add the rules you want to your `biome.json` or `biome.jsonc`:
+Add the plugin to your `biome.json` or `biome.jsonc`:
+
+```jsonc
+{
+  "plugins": ["biome-plugin-solid-router"]
+}
+```
+
+Or pick individual rules:
 
 ```jsonc
 {
@@ -33,8 +41,6 @@ Add the rules you want to your `biome.json` or `biome.jsonc`:
   ]
 }
 ```
-
-Pick only the rules relevant to your project — you don't have to use all of them.
 
 ## Requirements
 
